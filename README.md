@@ -45,9 +45,14 @@ Creates test data including admin user:
 - Password: password
 - Role: Admin
 
-### 6. Generate Swagger docs
+### 6. Link storage
+`docker compose exec app php artisan storage:link`
+
+Creates the `/public/storage` symlink so uploaded files are accessible.
+
+### 7. Generate Swagger docs
 `docker compose exec app php artisan l5-swagger:generate`
 
-### 7. Access the application
+### 8. Access the application
 **API Base URL**: http://localhost:8000  
 **Swagger UI**: http://localhost:8000/api/documentation
