@@ -1,0 +1,514 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Activities API",
+        "description": "API documentation for Activities",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/activities": {
+            "get": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Get all activities",
+                "operationId": "9d2aaca28896a8ed26f4994a358e35ff",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of activities per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Activity"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/activities/{id}": {
+            "get": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Get activity by ID",
+                "description": "Returns a single activity with its participant and activityType",
+                "operationId": "getActivityById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Activity"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Activity not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/activity-types": {
+            "get": {
+                "tags": [
+                    "Activity Types"
+                ],
+                "summary": "Get all activity types",
+                "operationId": "1b65cd880cfd0dd4dedd2d2d2bf64447",
+                "responses": {
+                    "200": {
+                        "description": "List of activity types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ActivityType"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/participants": {
+            "get": {
+                "tags": [
+                    "Participants"
+                ],
+                "summary": "Get list of participants",
+                "description": "Returns paginated list of participants",
+                "operationId": "049708a1e142f483ef2bf50b9cd45670",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of participants per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of participants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Participant"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List all users with details",
+                "operationId": "b343fe695d1beaa03b7deb8449dd1b7c",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of users per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{user}/favorites": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a user's favorite activities",
+                "operationId": "d8ed4b30d1958f5228591b6ca49bfc6a",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of users per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of favorite activities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Activity": {
+                "title": "Activity",
+                "description": "Activity resource",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Tech Workshop"
+                    },
+                    "short_description": {
+                        "type": "string",
+                        "example": "Short summary here..."
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Full activity description."
+                    },
+                    "registration_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://example.com/register"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Berlin, Germany"
+                    },
+                    "coordinates": {
+                        "type": "object",
+                        "example": {
+                            "lat": 52.52,
+                            "lng": 13.405
+                        }
+                    },
+                    "dates": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": [
+                            "2025-09-01",
+                            "2025-09-03"
+                        ]
+                    },
+                    "media": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "example": [
+                            "uploads/images/1.jpg",
+                            "uploads/images/2.jpg"
+                        ]
+                    },
+                    "participant": {
+                        "$ref": "#/components/schemas/Participant"
+                    },
+                    "activity_type": {
+                        "$ref": "#/components/schemas/ActivityType"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-08T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-08T12:10:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ActivityType": {
+                "title": "ActivityType",
+                "description": "Activity type",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Hiking"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": "uploads/icons/hiking.png"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "Participant": {
+                "title": "Participant",
+                "description": "Participant entity",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Event Organizer Inc."
+                    },
+                    "website_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://example.com"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "uploads/logos/participant1.png"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Berlin"
+                    },
+                    "coordinates": {
+                        "type": "object",
+                        "example": {
+                            "lat": 52.52,
+                            "lng": 13.405
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-08T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-08T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User resource with profile and roles",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Tigran Gevorgyan"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "tigran@example.com"
+                    },
+                    "phone_number": {
+                        "type": "string",
+                        "example": "+374XXXXXXXX"
+                    },
+                    "profile_photo_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://example.com/photos/1.jpg"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "manager"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Activities",
+            "description": "Activities"
+        },
+        {
+            "name": "Activity Types",
+            "description": "Activity Types"
+        },
+        {
+            "name": "Participants",
+            "description": "Participants"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
