@@ -1,27 +1,30 @@
-# Use PHP 8.3 instead of 8.2 (required by openspout)
-FROM php:8.3-fpm
+# PHP 8.3 CLI is enough for artisan serve
+FROM php:8.3-cli
 
-# Install system dependencies and required PHP extensions
+# System deps + SQLite
 RUN apt-get update && apt-get install -y \
     git curl libpng-dev libonig-dev libxml2-dev zip unzip \
     libzip-dev libjpeg-dev libfreetype6-dev libicu-dev \
-    && docker-php-ext-install intl pdo_mysql mbstring exif pcntl bcmath gd zip
+    sqlite3 libsqlite3-dev \
+ && docker-php-ext-install intl pdo_mysql pdo_sqlite mbstring exif pcntl bcmath gd zip \
+ && rm -rf /var/lib/apt/lists/*
 
-# Copy Composer from official image
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
-
-# Copy Laravel app
 COPY . .
 
-# Install composer dependencies
-RUN composer install --optimize-autoloader --no-dev
+# Install PHP deps (keep dev deps so l5-swagger can generate)
+RUN composer install --optimize-autoloader
 
-# Set permissions
+# Permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+ && chmod -R 775 storage bootstrap/cache
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Entrypoint
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 8000
+CMD ["/entrypoint.sh"]
