@@ -2,12 +2,6 @@
 set -e
 
 # --- IMPORTANT: Do NOT try to edit .env inside the container ---
-# APP_KEY must be provided via env variable in Railway.
-
-if [ -z "$APP_KEY" ]; then
-  echo "ERROR: APP_KEY is not set. Generate locally: php artisan key:generate --show"
-  exit 1
-fi
 
 # Storage link (ignore if exists)
 php artisan storage:link || true
