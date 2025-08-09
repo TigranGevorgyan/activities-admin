@@ -14,7 +14,7 @@ class ActivityTypeFactory extends Factory
         'seed-images/activity-types/sports.png',
         'seed-images/activity-types/concert.jpg',
         'seed-images/activity-types/festival.jpg',
-        'seed-images/activity-types/conference.png',
+        'seed-images/activity-types/conference.jpg',
     ];
 
     public function definition(): array
