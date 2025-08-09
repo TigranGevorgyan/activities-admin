@@ -47,7 +47,8 @@ class ParticipantResource extends Resource
 
             Textarea::make('coordinates')
                 ->label('Координаты (JSON)')
-                ->json()
+                ->dehydrateStateUsing(fn ($state) => is_string($state) ? $state : json_encode($state))
+                ->formatStateUsing(fn ($state) => is_array($state) ? json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : $state)
                 ->nullable(),
         ]);
     }
